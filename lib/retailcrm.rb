@@ -72,10 +72,8 @@ class Retailcrm
   #   site (String)
   def orders_get(id, by = 'externalId', site = nil)
     url = "#{@url}orders/#{id}"
-    if by != 'externalId'
-      @params[:by] = by
-      @params[:site] = site
-    end
+    @params[:by] = by || 'externalId'
+    @params[:site] = site
     make_request(url)
   end
 
@@ -108,9 +106,10 @@ class Retailcrm
   # Arguments:
   #   order (Array)
   #   site (String)
-  def orders_edit(order, site = nil)
+  def orders_edit(order, by = 'externalId', site = nil)
     id = order[:externalId]
     url = "#{@url}orders/#{id}/edit"
+    @params[:by] = by || 'externalId'
     @params[:order] = order.to_json
     @params[:site] = site
     make_request(url, 'post')
@@ -209,9 +208,7 @@ class Retailcrm
   def customers_get(id, by = 'externalId', site = nil)
     url = "#{@url}customers/#{id}"
     @params[:site] = site
-    if by != 'externalId'
-      @params[:by] = by
-    end
+    @params[:by] = by || 'externalId'
     make_request(url)
   end
 
@@ -244,9 +241,10 @@ class Retailcrm
   # Arguments:
   #   customer (Array)
   #   site (String)
-  def customers_edit(customer, site = nil)
+  def customers_edit(customer, by = 'externalId', site = nil)
     id = customer[:externalId]
     url = "#{@url}customers/#{id}/edit"
+    @params[:by] = by || 'externalId'
     @params[:customer] = customer.to_json
     @params[:site] = site
     make_request(url, 'post')
